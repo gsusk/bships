@@ -27,4 +27,15 @@
   display: flex;
   flex: 1 1 52px;
   border: 1px solid black;
+  overflow: hidden;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.show {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
