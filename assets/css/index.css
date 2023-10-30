@@ -1,1 +1,26 @@
 /* Your code here */
+* {
+  box-sizing: border-box;
+}
+
+.center {
+  flex-direction: column;
+  display: flex;
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+.div-style {
+  display: flex;
+  width: 600px;
+  height: 600px;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 10px;
+}
+
+.inner-div {
+  flex: 1 1 52px;
+  border: 1px solid black;
+}
