@@ -1,58 +1,94 @@
 import Board from "./board.js";
 
-let board = new Board(); // creates a new game board
+let board = new Board();
 
-// Examine the grid of the game board in the browser console.
-// Create the UI of the game using HTML elements based on this grid.
 
-// Your code here
+const body = document.body;
+const button = document.querySelector("button");
+const div = createCenteredDiv("div-style");
+const win = createCenteredDiv();
+const h2 = createHiddenH2("YOU WIN!");
+
+body.appendChild(div);
+body.insertBefore(win, div);
+win.appendChild(h2);
+
 let game = false;
-console.log(board.grid);
 
-const body = document.body
-body.classList.add("center")
-let div = document.createElement("div");
-body.appendChild(div)
-div.classList.add("center")
-div.classList.add('div-style')
-let win = document.createElement("div")
-let h2 = document.createElement("h2")
-body.insertBefore(win, div)
-h2.classList.add("hidden")
-h2.classList.add("shown")
-h2.innerText = " YOU WIN! "
-win.appendChild(h2)
 
-board.grid.forEach((row, idx) => {
+button.addEventListener("click", () => {
+  clearGrid();
+  resetBoard();
+  play();
+});
 
-  row.forEach((cell, idy) => {
-    let innerDiv = document.createElement('div');
-    innerDiv.classList.add("inner-div")
-    innerDiv.setAttribute("data-row", `${idx}`)
-    innerDiv.setAttribute("data-column", `${idy}`)
+function createCenteredDiv(className) {
+  const newDiv = document.createElement("div");
+  newDiv.classList.add("center");
+  if (className) {
+    newDiv.classList.add(className);
+  }
+  return newDiv;
+}
 
-    let content = div.appendChild(innerDiv)
-    content.innerText = cell
-    content.addEventListener('click', (e) => {
-      const [row, column] = [innerDiv.dataset.row, innerDiv.dataset.column];
-      if (innerDiv.style.backgroundColor === "green" || game) {
-        return
-      }
+function createHiddenH2(text) {
+  const newH2 = document.createElement("h2");
+  newH2.classList.add("hidden");
+  newH2.innerText = text;
+  return newH2;
+}
 
-      let hit = board.makeHit(row, column);
+function clearGrid() {
+  const elements = document.querySelectorAll(".inner-div");
+  elements.forEach((element) => {
+    div.removeChild(element);
+  });
+}
 
-      if (typeof hit === "number") {
-        innerDiv.style.backgroundColor = "green";
-      } else {
-        innerDiv.style.backgroundColor = "red";
-      }
+function resetBoard() {
+  board = new Board();
+  game = false;
+  h2.classList.add("hidden");
+}
 
-      if (board.isGameOver()) {
-        let all = document.querySelectorAll(".inner-div")
-        game = true;
-        h2.classList.remove("hidden")
-      }
-    })
-  })
+function play() {
+  board.grid.forEach((row, idx) => {
+    row.forEach((cell, idy) => {
+      const innerDiv = document.createElement("div");
+      innerDiv.classList.add("inner-div");
+      innerDiv.setAttribute("data-row", idx);
+      innerDiv.setAttribute("data-column", idy);
 
-})
+      const content = div.appendChild(innerDiv);
+      content.innerText = cell;
+
+      content.addEventListener("click", () => handleCellClick(innerDiv));
+    });
+  });
+}
+
+function handleCellClick(innerDiv) {
+  if (innerDiv.style.backgroundColor === "green" || game) {
+    return;
+  }
+
+  const [row, column] = [
+    innerDiv.dataset.row,
+    innerDiv.dataset.column,
+  ];
+
+  const hit = board.makeHit(row, column);
+
+  if (typeof hit === "number") {
+    innerDiv.style.backgroundColor = "green";
+  } else {
+    innerDiv.style.backgroundColor = "red";
+  }
+
+  if (board.isGameOver()) {
+    game = true;
+    h2.classList.remove("hidden");
+  }
+}
+
+play();
