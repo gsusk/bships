@@ -8,6 +8,10 @@ const button = document.querySelector("button");
 const div = createCenteredDiv("div-style");
 const win = createCenteredDiv();
 const h2 = createHiddenH2("YOU WIN!");
+const h1 = document.querySelector("h1")
+
+h1.classList.add("center")
+button.classList.add("center")
 
 body.appendChild(div);
 body.insertBefore(win, div);
