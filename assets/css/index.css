@@ -21,6 +21,10 @@
 }
 
 .inner-div {
+  font-size: 14px;
+  text-align: center;
+  align-content: center;
+  display: flex;
   flex: 1 1 52px;
   border: 1px solid black;
 }
